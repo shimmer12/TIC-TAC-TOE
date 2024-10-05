@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 
+// Initialize the board
 const initialBoard = Array(9).fill(null);
 
 const App = () => {
@@ -8,7 +9,17 @@ const App = () => {
   const [currentPlayer, setCurrentPlayer] = useState('X');
   const [winner, setWinner] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
- 
+
+  // Confetti function
+  const launchConfetti = () => {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  };
+
+  // Handle cell click
   const handleCellClick = (index) => {
     if (board[index] || winner) return;
     const newBoard = [...board];
@@ -18,6 +29,7 @@ const App = () => {
     setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
   };
 
+  // Check for a winner
   const checkWinner = (board, player) => {
     const winningCombinations = [
       [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
@@ -29,17 +41,20 @@ const App = () => {
       const [a, b, c] = combination;
       if (board[a] === player && board[b] === player && board[c] === player) {
         setWinner(player);
+        launchConfetti();  // Trigger confetti when a player wins
         return;
       }
     }
   };
 
+  // Reset the game
   const resetGame = () => {
     setBoard(initialBoard);
     setCurrentPlayer('X');
     setWinner(null);
   };
 
+  // Render each cell
   const renderCell = (index) => {
     const value = board[index];
     return (
@@ -49,7 +64,8 @@ const App = () => {
     );
   };
 
-  const toggleTheme = () =>{
+  // Toggle theme
+  const toggleTheme = () => {
     setIsDarkMode(prevMode => !prevMode);
   };
 
@@ -67,7 +83,7 @@ const App = () => {
       <div className="board">
         {board.map((cell, index) => (
           <div
-            key={index} // Unique key for each cell
+            key={index}
             className="cell"
             onClick={() => handleCellClick(index)}
           >
@@ -82,6 +98,7 @@ const App = () => {
           <button onClick={resetGame}>Restart</button>
         </div>
       )}
+
       <div className="rules">
         <h2>Rules</h2>
         <ul>
@@ -90,6 +107,7 @@ const App = () => {
           <li>If all cells are filled and no player has three marks in a row, the game is a draw.</li>
         </ul>
       </div>
+
       <footer className="footer">
         <p>&copy; 2023 TIC TAC TOE . All rights reserved.</p>
       </footer>
