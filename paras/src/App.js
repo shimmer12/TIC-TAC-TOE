@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import confetti from 'canvas-confetti';
+
 import './App.css';
 
 // Initialize the board
@@ -10,14 +12,15 @@ const App = () => {
   const [winner, setWinner] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
-  // Confetti function
   const launchConfetti = () => {
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 }
-    });
-  };
+  confetti({
+    particleCount: 150,   // Adjust particle count
+    spread: 80,           // Adjust spread
+    origin: { y: 0.6 },   // Adjust origin
+    colors: ['#bb0000', '#ffffff'], // Customize colors
+  });
+};
+
 
   // Handle cell click
   const handleCellClick = (index) => {
