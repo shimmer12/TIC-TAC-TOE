@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import confetti from 'canvas-confetti';
-
+import confetti from 'canvas-confetti';  // Import confetti
 import './App.css';
 
-// Initialize the board
 const initialBoard = Array(9).fill(null);
 
 const App = () => {
@@ -12,17 +10,16 @@ const App = () => {
   const [winner, setWinner] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
 
+  // Confetti function
   const launchConfetti = () => {
-  confetti({
-    particleCount: 150,   // Adjust particle count
-    spread: 80,           // Adjust spread
-    origin: { y: 0.6 },   // Adjust origin
-    colors: ['#bb0000', '#ffffff'], // Customize colors
-  });
-};
+    confetti({
+      particleCount: 150,   // Number of confetti particles
+      spread: 70,           // Spread of confetti
+      origin: { y: 0.6 },   // Origin point for confetti on the screen
+      colors: ['#bb0000', '#ffffff'], // Colors of the confetti particles
+    });
+  };
 
-
-  // Handle cell click
   const handleCellClick = (index) => {
     if (board[index] || winner) return;
     const newBoard = [...board];
@@ -32,7 +29,6 @@ const App = () => {
     setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
   };
 
-  // Check for a winner
   const checkWinner = (board, player) => {
     const winningCombinations = [
       [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
@@ -50,14 +46,12 @@ const App = () => {
     }
   };
 
-  // Reset the game
   const resetGame = () => {
     setBoard(initialBoard);
     setCurrentPlayer('X');
     setWinner(null);
   };
 
-  // Render each cell
   const renderCell = (index) => {
     const value = board[index];
     return (
@@ -67,7 +61,6 @@ const App = () => {
     );
   };
 
-  // Toggle theme
   const toggleTheme = () => {
     setIsDarkMode(prevMode => !prevMode);
   };
@@ -86,7 +79,7 @@ const App = () => {
       <div className="board">
         {board.map((cell, index) => (
           <div
-            key={index}
+            key={index} // Unique key for each cell
             className="cell"
             onClick={() => handleCellClick(index)}
           >
@@ -101,7 +94,6 @@ const App = () => {
           <button onClick={resetGame}>Restart</button>
         </div>
       )}
-
       <div className="rules">
         <h2>Rules</h2>
         <ul>
@@ -110,7 +102,6 @@ const App = () => {
           <li>If all cells are filled and no player has three marks in a row, the game is a draw.</li>
         </ul>
       </div>
-
       <footer className="footer">
         <p>&copy; 2023 TIC TAC TOE . All rights reserved.</p>
       </footer>
